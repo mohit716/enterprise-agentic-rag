@@ -1,0 +1,33 @@
+services:
+  azurite:
+    image: mcr.microsoft.com/azure-storage/azurite:3.36.0
+    command: azurite-blob --blobHost 0.0.0.0 --location /data
+    ports:
+      - "127.0.0.1:10000:10000"
+    volumes:
+      - azurite_data:/data
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('net').connect(10000,'127.0.0.1').on('connect',()=>process.exit(0)).on('error',()=>process.exit(1))"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+
+  postgres:
+    image: pgvector/pgvector:0.8.7-pg17
+    environment:
+      POSTGRES_DB: enterprise_rag
+      POSTGRES_USER: enterprise_rag
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+    ports:
+      - "127.0.0.1:${POSTGRES_PORT:-55432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U enterprise_rag -d enterprise_rag"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+
+volumes:
+  azurite_data:
+  postgres_data:

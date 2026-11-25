@@ -1,0 +1,67 @@
+# Local configuration and credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*credentials*.json
+*service-account*.json
+credentials/
+secrets/
+*.credentials
+*.secret
+*.token
+id_rsa
+id_ed25519
+
+# Source data, derived corpora, and generated audit data
+/data/raw/
+/data/private/
+/data/derived/
+/reports/*.json
+*.parquet
+*.arrow
+
+# Local databases and emulator storage
+*.db
+*.db-*
+*.sqlite
+*.sqlite3
+*.sqlite3-*
+*.duckdb
+*.mdb
+*.aof
+/azurite/
+/azurite_data/
+/blobstorage/
+/__azurite_db_*/
+__azurite_db_*
+__blobstorage__/
+__queuestorage__/
+__tablestorage__/
+/postgres_data/
+
+# Python and model caches
+/.venv/
+/venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.cache/
+/models/
+/checkpoints/
+/src/*.egg-info/
+
+# Local exploration artifacts containing retrieved source text
+/notebook.ipynb
+/rag_generation_diagnostics.txt
+/rag_retrieval_diagnostics.txt
+/rag_test_chat_link.txt
+
+# Editor agent instructions are local and duplicated
+/.agents/
+/.cursor/

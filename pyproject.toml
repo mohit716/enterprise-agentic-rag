@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "enterprise-agentic-rag"
+version = "0.1.0"
+description = "Validated local-first EnterpriseRAG-Bench retrieval and answer pipeline"
+requires-python = ">=3.12"
+dependencies = [
+  "pyarrow>=24,<27",
+  "pg8000>=1.31,<2",
+  "azure-storage-blob>=12.24,<13",
+  "sentence-transformers>=5,<6",
+  "requests>=2.32,<3",
+  "python-dotenv>=1,<2",
+  "huggingface-hub>=0.34,<2",
+  "openai>=2,<4",
+]
+
+[project.optional-dependencies]
+test = ["pytest>=8,<10"]
+
+[project.scripts]
+ear = "enterprise_rag.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

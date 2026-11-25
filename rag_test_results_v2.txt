@@ -1,0 +1,131 @@
+Controlled RAG coverage evaluation (v2)
+Run time: 2026-11-25T13:22:07-05:00
+Evaluation sample: data/derived/evaluation_coverage/documents.parquet
+Development documents preserved: 209
+Added raw documents: dsid_e54ef48bae78474684a957cf613d47d5, dsid_229dd48e9b1d466a81ebaffe3ec84469, dsid_aeb0022d62bc43beb6549ba92e5655eb
+Evaluation documents: 212 unique IDs; newly indexed this run: 0
+Development sample SHA-256: bb60c8c251fe3a0934fa2dd279578da8c7d4ce6f253c025bef954f9e809e534c
+Evaluation sample SHA-256: f12d4c15982d48e64c280368b0eb30f1ff4c169bde1363f6d4bcdfd91b7b4152
+Baseline result SHA-256: 7209a095b4aec334a6991f71b01730a8ea9133d4e6a1f91615d5ac7229907b9a
+Index: local PostgreSQL database enterprise_rag_coverage_eval, exactly 212 unique rows
+Blob storage: local Azurite container documents-eval; all 212 documents verified
+Embedding: sentence-transformers/all-MiniLM-L6-v2 @ 1110a243fdf4706b3f48f1d95db1a4f5529b4d41; content only, one vector per document
+Answer provider/model: openai / gpt-6-luna
+Retrieval limit: 5. Similarity score = 1 - pgvector cosine distance.
+Each question was submitted independently with no conversation history.
+Response time includes query embedding, retrieval, and generation; corpus construction, indexing, and model initialization are excluded.
+Baseline retrieval used the original shared index (209 development documents plus one fixture); v2 uses an isolated 212-document index.
+
+================================================================================
+QUESTION 1
+================================================================================
+Question: What is the purpose of the perf-canary service, and what performance metrics does it collect?
+
+Generated answer:
+perf-canary is an always-on synthetic workload that calls internal inference endpoints for a curated model set. Its purpose is to monitor performance while staying within the overhead budget and avoiding the capture or emission of customer data. [dsid_e54ef48bae78474684a957cf613d47d5]
+
+It emits metrics including p50/p95/p99 latency, tokens per second, prefill and decode performance, queueing time, and batch statistics. [dsid_e54ef48bae78474684a957cf613d47d5]
+
+Source citations in generated answer: dsid_e54ef48bae78474684a957cf613d47d5
+Response time: 3.906 seconds
+Stage times (seconds): embedding=0.124, retrieval=0.015, generation=3.767
+Errors: None
+Retrieved documents (5):
+  Rank 1: dsid_e54ef48bae78474684a957cf613d47d5 | chunk=dsid_e54ef48bae78474684a957cf613d47d5#0 | similarity=0.715073 | distance=0.284927 | title=Runbook: Deploy / Upgrade / Roll Back perf-canary (Prod)
+  Rank 2: dsid_cb51d298d4ea4b5c83ea6b5d44059ec9 | chunk=dsid_cb51d298d4ea4b5c83ea6b5d44059ec9#0 | similarity=0.608398 | distance=0.391602 | title=Add region + hardware SKU dimension config (with fanout safeguards)
+  Rank 3: dsid_9176c95ed91945db99211f421abd7f5f | chunk=dsid_9176c95ed91945db99211f421abd7f5f#0 | similarity=0.453721 | distance=0.546279 | title=dynamic-midburst-slice-reserver-and-util-correlator
+  Rank 4: dsid_09066290ae1147e3ae48e177f3303fd2 | chunk=dsid_09066290ae1147e3ae48e177f3303fd2#0 | similarity=0.444899 | distance=0.555101 | title=Quality vs Quantization (FP8/INT8) — Evals Summary (Hosted Catalog) — Sprint Readout v1
+  Rank 5: dsid_85fcc4e803c04e9dbb1bfb774834496b | chunk=dsid_85fcc4e803c04e9dbb1bfb774834496b#0 | similarity=0.438061 | distance=0.561939 | title=Variance investigation: clock drift, thermal throttling, and cluster/driver mismatch in FP8/INT8 benchmarks
+
+Comparison with rag_test_results.txt:
+  Baseline top hit: dsid_cb51d298d4ea4b5c83ea6b5d44059ec9 (similarity 0.608398)
+  V2 top hit: dsid_e54ef48bae78474684a957cf613d47d5 (similarity 0.715073)
+  Baseline citations: dsid_cb51d298d4ea4b5c83ea6b5d44059ec
+  V2 citations: dsid_e54ef48bae78474684a957cf613d47d5
+  Baseline response time: 3.050 seconds
+  V2 response time: 3.906 seconds
+  Baseline errors: Answer cited documents absent from retrieval: dsid_cb51d298d4ea4b5c83ea6b5d44059ec
+  V2 errors: None
+  Baseline answer: I don’t know what performance metrics the perf-canary service collects. The documents describe it as a canary runner that selects targets by region and optionally hardware SKU, routes requests, and emits metrics, but they don’t specify which performance measurements it collects. [dsid_cb51d298d4ea4b5c83ea6b5d44059ec]
+  V2 answer: perf-canary is an always-on synthetic workload that calls internal inference endpoints for a curated model set. Its purpose is to monitor performance while staying within the overhead budget and avoiding the capture or emission of customer data. [dsid_e54ef48bae78474684a957cf613d47d5]  It emits metrics including p50/p95/p99 latency, tokens per second, prefill and decode performance, queueing time, and batch statistics. [dsid_e54ef48bae78474684a957cf613d47d5]
+  Target document ranks (baseline -> v2):
+    dsid_e54ef48bae78474684a957cf613d47d5: absent -> rank 1, similarity 0.715073
+
+================================================================================
+QUESTION 2
+================================================================================
+Question: If the perf-canary service needs to be immediately disabled in production, what steps should the on-call engineer take, and which dashboards should they monitor?
+
+Generated answer:
+Disable perf-canary through the region’s control-plane config first: set its enablement flag to disabled, then confirm the service acknowledges the refresh (for example, with `disabled=true` or `targets=0`). Verify that inference-endpoint QPS drops to approximately zero and that metrics stop changing apart from heartbeat/health signals. [dsid_e54ef48bae78474684a957cf613d47d5]
+
+If the control plane is unavailable or the service is misbehaving, set the target model allowlist to empty or the QPS cap to zero if config is reachable. As a last resort, scale the Deployment to zero and confirm endpoint QPS counters drop; note in the incident thread why this was necessary. [dsid_e54ef48bae78474684a957cf613d47d5]
+
+Monitor the **“Perf Canary – Per Model”** Grafana dashboard for p95 and tokens/sec, along with the capacity/overhead dashboard for GPU utilization and canary QPS counters. Check that QPS has fallen as expected and assess overhead; if disabling due to overhead, capture before-and-after GPU utilization and canary QPS. [dsid_e54ef48bae78474684a957cf613d
+
+Source citations in generated answer: dsid_e54ef48bae78474684a957cf613d47d5
+Response time: 2.883 seconds
+Stage times (seconds): embedding=0.018, retrieval=0.006, generation=2.859
+Errors: None
+Retrieved documents (5):
+  Rank 1: dsid_e54ef48bae78474684a957cf613d47d5 | chunk=dsid_e54ef48bae78474684a957cf613d47d5#0 | similarity=0.720561 | distance=0.279439 | title=Runbook: Deploy / Upgrade / Roll Back perf-canary (Prod)
+  Rank 2: dsid_cb51d298d4ea4b5c83ea6b5d44059ec9 | chunk=dsid_cb51d298d4ea4b5c83ea6b5d44059ec9#0 | similarity=0.537605 | distance=0.462395 | title=Add region + hardware SKU dimension config (with fanout safeguards)
+  Rank 3: dsid_2800b1aaabfd42489f8a5408dcb2f0bd | chunk=dsid_2800b1aaabfd42489f8a5408dcb2f0bd#0 | similarity=0.502904 | distance=0.497096 | title=Day-Zero experiment ops playbook (working)
+  Rank 4: dsid_3e7cf5be42d84f2880858c726b65998f | chunk=dsid_3e7cf5be42d84f2880858c726b65998f#0 | similarity=0.490731 | distance=0.509269 | title=Quickstart Templates: KPI + telemetry requirements (events, tags, dashboards)
+  Rank 5: dsid_fe07ec3d8dde49efae487e6fadc66a77 | chunk=dsid_fe07ec3d8dde49efae487e6fadc66a77#0 | similarity=0.469161 | distance=0.530839 | title=Staged degradation containment and fix lifecycle for model rollouts
+
+Comparison with rag_test_results.txt:
+  Baseline top hit: dsid_cb51d298d4ea4b5c83ea6b5d44059ec9 (similarity 0.537605)
+  V2 top hit: dsid_e54ef48bae78474684a957cf613d47d5 (similarity 0.720561)
+  Baseline citations: dsid_cb51d298d4ea4b5c83ea6b5d44059ec9
+  V2 citations: dsid_e54ef48bae78474684a957cf613d47d5
+  Baseline response time: 1.505 seconds
+  V2 response time: 2.883 seconds
+  Baseline errors: None
+  V2 errors: None
+  Baseline answer: The documents do not specify a production disable procedure for the perf-canary service or identify dashboards to monitor for that action. I do not know. [dsid_cb51d298d4ea4b5c83ea6b5d44059ec9]
+  V2 answer: Disable perf-canary through the region’s control-plane config first: set its enablement flag to disabled, then confirm the service acknowledges the refresh (for example, with `disabled=true` or `targets=0`). Verify that inference-endpoint QPS drops to approximately zero and that metrics stop changing apart from heartbeat/health signals. [dsid_e54ef48bae78474684a957cf613d47d5]  If the control plane is unavailable or the service is misbehaving, set the target model allowlist to empty or the QPS cap to zero if config is reachable. As a last resort, scale the Deployment to zero and confirm endpoint QPS counters drop; note in the incident thread why this was necessary. [dsid_e54ef48bae78474684a957cf613d47d5]  Monitor the **“Perf Canary – Per Model”** Grafana dashboard for p95 and tokens/sec, along with the capacity/overhead dashboard for GPU utilization and canary QPS counters. Check that QPS has fallen as expected and assess overhead; if disabling due to overhead, capture before-and-after GPU utilization and canary QPS. [dsid_e54ef48bae78474684a957cf613d
+  Target document ranks (baseline -> v2):
+    dsid_e54ef48bae78474684a957cf613d47d5: absent -> rank 1, similarity 0.720561
+
+================================================================================
+QUESTION 3
+================================================================================
+Question: We are onboarding an enterprise customer who requires cross-account GPU bursting and third-party vendor integration. What technical, security, billing, and operational requirements must be addressed before production deployment?
+
+Generated answer:
+Before production, treat cross-account bursting and vendor integration as separate but coordinated readiness gates.
+
+### Technical readiness
+- **Enroll the borrower through the cross-account IaC module and CI pipeline.** Pass preflight checks for a drift-free Terraform plan, lender-assumable IAM role, borrower-to-lender egress probe under 200 ms, configured cost cap and billing-family contact, and 100-request smoke test validating prefix caching and KV fill. Complete a 7-day canary (1% production traffic or up to 5% of a small lender pool); require no SLO violations and cost deltas within ±15% of forecast before promotion. [dsid_229dd48e9b1d466a81ebaffe3ec84469]
+- **Meet burst SLOs and capacity limits:** 99.8% request success over a rolling 30 days; burst P95 latency no more than 1.5× local-pool P95 for the same model class; lender reserves at least 20% for local commits, with burst saturation capped at 80%. [dsid_229dd48e9b1d466a81ebaffe3ec84469]
+- **Validate vendor integration and its runtime contract.**
+
+Source citations in generated answer: dsid_229dd48e9b1d466a81ebaffe3ec84469
+Response time: 3.088 seconds
+Stage times (seconds): embedding=0.028, retrieval=0.007, generation=3.052
+Errors: None
+Retrieved documents (5):
+  Rank 1: dsid_229dd48e9b1d466a81ebaffe3ec84469 | chunk=dsid_229dd48e9b1d466a81ebaffe3ec84469#0 | similarity=0.589769 | distance=0.410231 | title=Cross-account GPU burst SLO contract and CI lifecycle
+  Rank 2: dsid_aeb0022d62bc43beb6549ba92e5655eb | chunk=dsid_aeb0022d62bc43beb6549ba92e5655eb#0 | similarity=0.564142 | distance=0.435858 | title=Third-Party & Vendor Coordination Playbook for Enterprise Onboarding
+  Rank 3: dsid_59179a57baf141d2a6aeff99369764be | chunk=dsid_59179a57baf141d2a6aeff99369764be#0 | similarity=0.546893 | distance=0.453107 | title=StrataConnect + Redwood: Integration Discovery & Pilot Framing
+  Rank 4: dsid_8af01878fb504132b36f129953e25dd9 | chunk=dsid_8af01878fb504132b36f129953e25dd9#0 | similarity=0.487255 | distance=0.512745 | title=Third-Party Model Adapters and Runtime Contracts: Design Patterns and Integration Playbook
+  Rank 5: dsid_9a072ce6e9294cf78751b25353b86b4f | chunk=dsid_9a072ce6e9294cf78751b25353b86b4f#0 | similarity=0.485154 | distance=0.514846 | title=Conversational Runtime Packaging and Rollout Playbook
+
+Comparison with rag_test_results.txt:
+  Baseline top hit: dsid_59179a57baf141d2a6aeff99369764be (similarity 0.546893)
+  V2 top hit: dsid_229dd48e9b1d466a81ebaffe3ec84469 (similarity 0.589769)
+  Baseline citations: dsid_59179a57baf141d2a6aeff99369764be, dsid_8af01878fb504132b36f129953e25dd9
+  V2 citations: dsid_229dd48e9b1d466a81ebaffe3ec84469
+  Baseline response time: 2.745 seconds
+  V2 response time: 3.088 seconds
+  Baseline errors: None
+  V2 errors: None
+  Baseline answer: Before production deployment, address the following:  **Technical** - Define the integration pattern—hosted API, dedicated capacity, or Private/VPC—and confirm the data plane’s region, network topology, peering, and cross-region egress implications. Confirm whether the customer requires cross-account GPU bursting; the documents do not specify a cross-account bursting design or its implementation requirements. [dsid_59179a57baf141d2a6aeff99369764be] - For a third-party model, register an adapter-backed variant and implement the runtime contract: health, capabilities, inference with latency budget and fidelity hint, telemetry, and fallback recommendations. Validate supported operations, capacity hints, and performance against the customer’s workloads. [dsid_8af01878fb504132b36f129953e25dd9] - Benchmark representative traces and prompt sets; measure latency percentiles, throughput, and quality delta. Test fallback and degradation behavior, and gate rollout on performance and fidelity tolerances. [dsid_59179a57baf141d2a6aeff99369764be] [dsid_8af01878fb504132b36f129953e25dd9] - If using packaged conversational profiles,
+  V2 answer: Before production, treat cross-account bursting and vendor integration as separate but coordinated readiness gates.  ### Technical readiness - **Enroll the borrower through the cross-account IaC module and CI pipeline.** Pass preflight checks for a drift-free Terraform plan, lender-assumable IAM role, borrower-to-lender egress probe under 200 ms, configured cost cap and billing-family contact, and 100-request smoke test validating prefix caching and KV fill. Complete a 7-day canary (1% production traffic or up to 5% of a small lender pool); require no SLO violations and cost deltas within ±15% of forecast before promotion. [dsid_229dd48e9b1d466a81ebaffe3ec84469] - **Meet burst SLOs and capacity limits:** 99.8% request success over a rolling 30 days; burst P95 latency no more than 1.5× local-pool P95 for the same model class; lender reserves at least 20% for local commits, with burst saturation capped at 80%. [dsid_229dd48e9b1d466a81ebaffe3ec84469] - **Validate vendor integration and its runtime contract.**
+  Target document ranks (baseline -> v2):
+    dsid_229dd48e9b1d466a81ebaffe3ec84469: absent -> rank 1, similarity 0.589769
+    dsid_aeb0022d62bc43beb6549ba92e5655eb: absent -> rank 2, similarity 0.564142
+
+Interpretation: This run changes corpus coverage only. Answer wording and timing can vary across independent OpenAI calls; the retrieved IDs and scores are the direct coverage comparison.
+Output review: The provider raised no exception, but the Q2 answer ends with an unclosed citation ID, and Q3 stops after introducing vendor integration without addressing the requested security, billing, and operational requirements. These answers are incomplete even though all relevant target documents were retrieved. Answer generation was not changed in this evaluation.

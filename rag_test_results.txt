@@ -1,0 +1,218 @@
+Existing RAG pipeline test results (sanitized V1 baseline)
+
+Full retrieved document bodies have been omitted from this public report.
+Question, answer, retrieval rank, citation, timing, and error fields are retained.
+
+Query path: pinned Sentence Transformers embedding -> existing PostgreSQL/pgvector index -> OpenAI answer provider.
+Each question was sent as an independent request with no conversation history.
+Index at test start: 209 development-sample documents plus one existing contract-test fixture.
+Retrieval limit: 5 documents per question.
+Relevance score = 1 - pgvector cosine distance; both measured values are shown.
+Response time covers query embedding, vector retrieval, and answer generation; model initialization and existing indexing are excluded.
+Embedding model: sentence-transformers/all-MiniLM-L6-v2 @ 1110a243fdf4706b3f48f1d95db1a4f5529b4d41 (384 dimensions).
+Answer provider/model: openai / gpt-6-luna.
+
+================================================================================
+QUESTION 1
+================================================================================
+Question: What is the purpose of the perf-canary service, and what performance metrics does it collect?
+
+Generated answer:
+I don’t know what performance metrics the perf-canary service collects. The documents describe it as a canary runner that selects targets by region and optionally hardware SKU, routes requests, and emits metrics, but they don’t specify which performance measurements it collects. [dsid_cb51d298d4ea4b5c83ea6b5d44059ec]
+
+Source citations in generated answer: dsid_cb51d298d4ea4b5c83ea6b5d44059ec
+Response time: 3.050 seconds
+Stage times (seconds): embedding=0.123
+Retrieval time: 0.116 seconds
+Answer generation time: 2.812 seconds
+Errors: Answer cited documents absent from retrieval: dsid_cb51d298d4ea4b5c83ea6b5d44059ec
+
+Retrieved documents (5):
+--------------------------------------------------------------------------------
+Rank: 1
+Document ID: dsid_cb51d298d4ea4b5c83ea6b5d44059ec9
+Chunk ID: dsid_cb51d298d4ea4b5c83ea6b5d44059ec9#0
+Source type: github
+Title: Add region + hardware SKU dimension config (with fanout safeguards)
+Cosine distance: 0.391602
+Relevance score (1 - distance): 0.608398
+Full retrieved content:
+[Retrieved document body omitted from public report]
+--------------------------------------------------------------------------------
+Rank: 2
+Document ID: dsid_9176c95ed91945db99211f421abd7f5f
+Chunk ID: dsid_9176c95ed91945db99211f421abd7f5f#0
+Source type: github
+Title: dynamic-midburst-slice-reserver-and-util-correlator
+Cosine distance: 0.546279
+Relevance score (1 - distance): 0.453721
+Full retrieved content:
+[Retrieved document body omitted from public report]
+--------------------------------------------------------------------------------
+Rank: 3
+Document ID: dsid_09066290ae1147e3ae48e177f3303fd2
+Chunk ID: dsid_09066290ae1147e3ae48e177f3303fd2#0
+Source type: google_drive
+Title: Quality vs Quantization (FP8/INT8) — Evals Summary (Hosted Catalog) — Sprint Readout v1
+Cosine distance: 0.555101
+Relevance score (1 - distance): 0.444899
+Full retrieved content:
+[Retrieved document body omitted from public report]
+--------------------------------------------------------------------------------
+Rank: 4
+Document ID: dsid_85fcc4e803c04e9dbb1bfb774834496b
+Chunk ID: dsid_85fcc4e803c04e9dbb1bfb774834496b#0
+Source type: linear
+Title: Variance investigation: clock drift, thermal throttling, and cluster/driver mismatch in FP8/INT8 benchmarks
+Cosine distance: 0.561939
+Relevance score (1 - distance): 0.438061
+Full retrieved content:
+[Retrieved document body omitted from public report]
+--------------------------------------------------------------------------------
+Rank: 5
+Document ID: dsid_46eeab43b1004e4eba732d1639481b2b
+Chunk ID: dsid_46eeab43b1004e4eba732d1639481b2b#0
+Source type: hubspot
+Title: Asterion Stream Labs
+Cosine distance: 0.588267
+Relevance score (1 - distance): 0.411733
+Full retrieved content:
+[Retrieved document body omitted from public report]
+================================================================================
+QUESTION 2
+================================================================================
+Question: If the perf-canary service needs to be immediately disabled in production, what steps should the on-call engineer take, and which dashboards should they monitor?
+
+Generated answer:
+The documents do not specify a production disable procedure for the perf-canary service or identify dashboards to monitor for that action. I do not know. [dsid_cb51d298d4ea4b5c83ea6b5d44059ec9]
+
+Source citations in generated answer: dsid_cb51d298d4ea4b5c83ea6b5d44059ec9
+Response time: 1.505 seconds
+Stage times (seconds): embedding=0.015
+Retrieval time: 0.006 seconds
+Answer generation time: 1.484 seconds
+Errors: None
+
+Retrieved documents (5):
+--------------------------------------------------------------------------------
+Rank: 1
+Document ID: dsid_cb51d298d4ea4b5c83ea6b5d44059ec9
+Chunk ID: dsid_cb51d298d4ea4b5c83ea6b5d44059ec9#0
+Source type: github
+Title: Add region + hardware SKU dimension config (with fanout safeguards)
+Cosine distance: 0.462395
+Relevance score (1 - distance): 0.537605
+Full retrieved content:
+[Retrieved document body omitted from public report]
+--------------------------------------------------------------------------------
+Rank: 2
+Document ID: dsid_2800b1aaabfd42489f8a5408dcb2f0bd
+Chunk ID: dsid_2800b1aaabfd42489f8a5408dcb2f0bd#0
+Source type: google_drive
+Title: Day-Zero experiment ops playbook (working)
+Cosine distance: 0.497096
+Relevance score (1 - distance): 0.502904
+Full retrieved content:
+[Retrieved document body omitted from public report]
+--------------------------------------------------------------------------------
+Rank: 3
+Document ID: dsid_3e7cf5be42d84f2880858c726b65998f
+Chunk ID: dsid_3e7cf5be42d84f2880858c726b65998f#0
+Source type: linear
+Title: Quickstart Templates: KPI + telemetry requirements (events, tags, dashboards)
+Cosine distance: 0.509269
+Relevance score (1 - distance): 0.490731
+Full retrieved content:
+[Retrieved document body omitted from public report]
+--------------------------------------------------------------------------------
+Rank: 4
+Document ID: dsid_fe07ec3d8dde49efae487e6fadc66a77
+Chunk ID: dsid_fe07ec3d8dde49efae487e6fadc66a77#0
+Source type: linear
+Title: Staged degradation containment and fix lifecycle for model rollouts
+Cosine distance: 0.530839
+Relevance score (1 - distance): 0.469161
+Full retrieved content:
+[Retrieved document body omitted from public report]
+--------------------------------------------------------------------------------
+Rank: 5
+Document ID: dsid_85d11cb09ddb42469479b2dae5c30ff6
+Chunk ID: dsid_85d11cb09ddb42469479b2dae5c30ff6#0
+Source type: github
+Title: Rollout canary safety smoke tests (cohorting + auto-stop wiring) for staging
+Cosine distance: 0.548570
+Relevance score (1 - distance): 0.451430
+Full retrieved content:
+[Retrieved document body omitted from public report]
+================================================================================
+QUESTION 3
+================================================================================
+Question: We are onboarding an enterprise customer who requires cross-account GPU bursting and third-party vendor integration. What technical, security, billing, and operational requirements must be addressed before production deployment?
+
+Generated answer:
+Before production deployment, address the following:
+
+**Technical**
+- Define the integration pattern—hosted API, dedicated capacity, or Private/VPC—and confirm the data plane’s region, network topology, peering, and cross-region egress implications. Confirm whether the customer requires cross-account GPU bursting; the documents do not specify a cross-account bursting design or its implementation requirements. [dsid_59179a57baf141d2a6aeff99369764be]
+- For a third-party model, register an adapter-backed variant and implement the runtime contract: health, capabilities, inference with latency budget and fidelity hint, telemetry, and fallback recommendations. Validate supported operations, capacity hints, and performance against the customer’s workloads. [dsid_8af01878fb504132b36f129953e25dd9]
+- Benchmark representative traces and prompt sets; measure latency percentiles, throughput, and quality delta. Test fallback and degradation behavior, and gate rollout on performance and fidelity tolerances. [dsid_59179a57baf141d2a6aeff99369764be] [dsid_8af01878fb504132b36f129953e25dd9]
+- If using packaged conversational profiles,
+
+Source citations in generated answer: dsid_59179a57baf141d2a6aeff99369764be, dsid_8af01878fb504132b36f129953e25dd9
+Response time: 2.745 seconds
+Stage times (seconds): embedding=0.013
+Retrieval time: 0.008 seconds
+Answer generation time: 2.724 seconds
+Errors: None
+
+Retrieved documents (5):
+--------------------------------------------------------------------------------
+Rank: 1
+Document ID: dsid_59179a57baf141d2a6aeff99369764be
+Chunk ID: dsid_59179a57baf141d2a6aeff99369764be#0
+Source type: fireflies
+Title: StrataConnect + Redwood: Integration Discovery & Pilot Framing
+Cosine distance: 0.453107
+Relevance score (1 - distance): 0.546893
+Full retrieved content:
+[Retrieved document body omitted from public report]
+--------------------------------------------------------------------------------
+Rank: 2
+Document ID: dsid_8af01878fb504132b36f129953e25dd9
+Chunk ID: dsid_8af01878fb504132b36f129953e25dd9#0
+Source type: confluence
+Title: Third-Party Model Adapters and Runtime Contracts: Design Patterns and Integration Playbook
+Cosine distance: 0.512745
+Relevance score (1 - distance): 0.487255
+Full retrieved content:
+[Retrieved document body omitted from public report]
+--------------------------------------------------------------------------------
+Rank: 3
+Document ID: dsid_9a072ce6e9294cf78751b25353b86b4f
+Chunk ID: dsid_9a072ce6e9294cf78751b25353b86b4f#0
+Source type: confluence
+Title: Conversational Runtime Packaging and Rollout Playbook
+Cosine distance: 0.514846
+Relevance score (1 - distance): 0.485154
+Full retrieved content:
+[Retrieved document body omitted from public report]
+--------------------------------------------------------------------------------
+Rank: 4
+Document ID: dsid_abd2b21a02fb4e798c113bfcb7dea307
+Chunk ID: dsid_abd2b21a02fb4e798c113bfcb7dea307#0
+Source type: linear
+Title: Field trials: smart prefetch pipeline for token cost reduction
+Cosine distance: 0.547646
+Relevance score (1 - distance): 0.452354
+Full retrieved content:
+[Retrieved document body omitted from public report]
+--------------------------------------------------------------------------------
+Rank: 5
+Document ID: dsid_53450fd110bf493fa8d499beebe64836
+Chunk ID: dsid_53450fd110bf493fa8d499beebe64836#0
+Source type: google_drive
+Title: ProServices / Solutions Weekly Sync - Customer Integration Standup (2026-02-20)
+Cosine distance: 0.553187
+Relevance score (1 - distance): 0.446813
+Full retrieved content:
+[Retrieved document body omitted from public report]

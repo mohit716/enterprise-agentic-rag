@@ -1,0 +1,261 @@
+RAG answer-generation evaluation (v4)
+Run time: 2026-11-25T14:03:23-05:00
+Evaluation sample: data/derived/evaluation_coverage/documents.parquet
+Evaluation sample SHA-256: f12d4c15982d48e64c280368b0eb30f1ff4c169bde1363f6d4bcdfd91b7b4152
+Index: existing isolated PostgreSQL enterprise_rag_coverage_eval, 212 unique documents; no ingestion performed
+V1 result SHA-256: 7209a095b4aec334a6991f71b01730a8ea9133d4e6a1f91615d5ac7229907b9a
+V2 result SHA-256: d51f32bfb4304936345b118c8abfed93fa641818ca43fdc64c7a451fdaa89eaa
+V3 result SHA-256: 3c350ab536a1857421c5f6b44779700923c242c0e4a72a6e33e62ae3717b274f
+Embedding: sentence-transformers/all-MiniLM-L6-v2 @ 1110a243fdf4706b3f48f1d95db1a4f5529b4d41
+Answer provider/model: openai / gpt-6-luna
+Output-token limit: 2048; retrieval limit: 5; similarity = 1 - pgvector cosine distance.
+Prompt construction, retrieval, and evaluation corpus are unchanged from V3.
+Each question was submitted independently with no conversation history.
+Overall response latency includes query embedding, retrieval, and generation; model initialization is excluded.
+V1/V2 did not record API usage or status; N/A below means unavailable, not zero.
+Citation validity for historical answers is rechecked with the current strict validator.
+
+================================================================================
+QUESTION 1
+================================================================================
+Question: What is the purpose of the perf-canary service, and what performance metrics does it collect?
+
+Generated answer:
+perf-canary is an always-on synthetic workload that calls internal inference endpoints for a curated set of models. It is used to monitor performance while staying within an overhead budget and without capturing or emitting customer data. [dsid_e54ef48bae78474684a957cf613d47d5]
+
+It collects latency percentiles (p50/p95/p99), tokens per second, prefill/decode performance, queueing time, and batch statistics. [dsid_e54ef48bae78474684a957cf613d47d5]
+
+Answer completion: API completed; citations valid
+Citation validity: valid
+Source citations in generated answer: dsid_e54ef48bae78474684a957cf613d47d5
+Overall response latency: 2.957 seconds
+Stage latencies (seconds): embedding=0.111, retrieval=0.010, generation=2.835
+Generation metadata:
+  Response ID: resp_02aab687eb290b26016b0730ebf96087d2b3e754d695e1fa95
+  API response status: completed
+  Incomplete reason: N/A
+  Input tokens: 11099
+  Cached input tokens: 11096
+  Output tokens: 116
+  Reasoning tokens: 0
+  Total tokens: 11215
+  API response latency (seconds): 2.835
+Errors: None
+Retrieved documents (5):
+  Rank 1: dsid_e54ef48bae78474684a957cf613d47d5 | similarity=0.715073 | title=Runbook: Deploy / Upgrade / Roll Back perf-canary (Prod)
+  Rank 2: dsid_cb51d298d4ea4b5c83ea6b5d44059ec9 | similarity=0.608398 | title=Add region + hardware SKU dimension config (with fanout safeguards)
+  Rank 3: dsid_9176c95ed91945db99211f421abd7f5f | similarity=0.453721 | title=dynamic-midburst-slice-reserver-and-util-correlator
+  Rank 4: dsid_09066290ae1147e3ae48e177f3303fd2 | similarity=0.444899 | title=Quality vs Quantization (FP8/INT8) — Evals Summary (Hosted Catalog) — Sprint Readout v1
+  Rank 5: dsid_85fcc4e803c04e9dbb1bfb774834496b | similarity=0.438061 | title=Variance investigation: clock drift, thermal throttling, and cluster/driver mismatch in FP8/INT8 benchmarks
+
+Comparison against V1, V2, and V3:
+  V1 answer completeness: No metrics answer; retrieved evidence was insufficient.
+  V1 expected document ranks: dsid_e54ef48bae78474684a957cf613d47d5=absent
+  V1 top hit: dsid_cb51d298d4ea4b5c83ea6b5d44059ec9 (similarity 0.608398)
+  V1 citation validity: invalid (Answer cited documents absent from retrieval: ['dsid_cb51d298d4ea4b5c83ea6b5d44059ec'])
+  V1 citations: dsid_cb51d298d4ea4b5c83ea6b5d44059ec
+  V1 API status: N/A
+  V1 tokens (input/cached/output/reasoning): N/A/N/A/N/A/N/A
+  V1 response latency: 3.050 seconds
+  V1 recorded errors: Answer cited documents absent from retrieval: dsid_cb51d298d4ea4b5c83ea6b5d44059ec
+  V2 answer completeness: Answers both purpose and metrics.
+  V2 expected document ranks: dsid_e54ef48bae78474684a957cf613d47d5=1
+  V2 top hit: dsid_e54ef48bae78474684a957cf613d47d5 (similarity 0.715073)
+  V2 citation validity: valid
+  V2 citations: dsid_e54ef48bae78474684a957cf613d47d5
+  V2 API status: N/A
+  V2 tokens (input/cached/output/reasoning): N/A/N/A/N/A/N/A
+  V2 response latency: 3.906 seconds
+  V2 recorded errors: None
+  V3 answer completeness: API completed; answers both purpose and metrics.
+  V3 expected document ranks: dsid_e54ef48bae78474684a957cf613d47d5=1
+  V3 top hit: dsid_e54ef48bae78474684a957cf613d47d5 (similarity 0.715073)
+  V3 citation validity: valid
+  V3 citations: dsid_e54ef48bae78474684a957cf613d47d5
+  V3 API status: completed
+  V3 tokens (input/cached/output/reasoning): 11099/11096/105/0
+  V3 response latency: 3.548 seconds
+  V3 recorded errors: None
+  V4 expected document ranks: dsid_e54ef48bae78474684a957cf613d47d5=1
+  V4 answer completeness: API completed and citations valid
+  V4 citation validity: valid
+  V4 API status: completed
+  V4 tokens (input/cached/output/reasoning): 11099/11096/116/0
+  V4 response latency: 2.957 seconds
+  V4 errors: None
+
+================================================================================
+QUESTION 2
+================================================================================
+Question: If the perf-canary service needs to be immediately disabled in production, what steps should the on-call engineer take, and which dashboards should they monitor?
+
+Generated answer:
+1. **Disable through the control plane first:** set perf-canary to disabled for the affected region. Confirm it acknowledges the refresh (for example, `disabled=true` or `targets=0`), then verify inference-endpoint QPS falls to about zero and only heartbeat/health metrics continue. [dsid_e54ef48bae78474684a957cf613d47d5]
+
+2. **If full disable is unavailable but config is reachable:** empty the region’s model allowlist or set its QPS cap to zero, and verify the request loop stops. [dsid_e54ef48bae78474684a957cf613d47d5]
+
+3. **If the config plane is unavailable or the service is misbehaving:** as a last resort, scale the Deployment to zero with `kubectl scale deployment/perf-canary --replicas=0`. Confirm endpoint QPS counters drop, and note in the incident thread why this last resort was needed. [dsid_e54ef48bae78474684a957cf613d47d5]
+
+4. **After disabling:** if privacy or safety concerns prompted the action, open at least a Sev2 incident and notify Security & Compliance. If overhead prompted it, capture GPU utilization and canary QPS before and after. [dsid_e54ef48bae78474684a957cf613d47d5]
+
+Monitor the **Grafana “Perf Canary – Per Model”** dashboard for p95 and tokens/sec breakdowns, and the **capacity/overhead dashboard** for GPU utilization and canary QPS counters. Also verify the affected region’s latency histograms, tokens/sec, and other enabled metrics stop changing as expected. [dsid_e54ef48bae78474684a957cf613d47d5]
+
+Answer completion: API completed; citations valid
+Citation validity: valid
+Source citations in generated answer: dsid_e54ef48bae78474684a957cf613d47d5
+Overall response latency: 3.926 seconds
+Stage latencies (seconds): embedding=0.025, retrieval=0.008, generation=3.893
+Generation metadata:
+  Response ID: resp_019e24eb961cf27a016b0730edece887d28ff44ef0a409788f
+  API response status: completed
+  Incomplete reason: N/A
+  Input tokens: 8906
+  Cached input tokens: 8903
+  Output tokens: 372
+  Reasoning tokens: 0
+  Total tokens: 9278
+  API response latency (seconds): 3.893
+Errors: None
+Retrieved documents (5):
+  Rank 1: dsid_e54ef48bae78474684a957cf613d47d5 | similarity=0.720561 | title=Runbook: Deploy / Upgrade / Roll Back perf-canary (Prod)
+  Rank 2: dsid_cb51d298d4ea4b5c83ea6b5d44059ec9 | similarity=0.537605 | title=Add region + hardware SKU dimension config (with fanout safeguards)
+  Rank 3: dsid_2800b1aaabfd42489f8a5408dcb2f0bd | similarity=0.502904 | title=Day-Zero experiment ops playbook (working)
+  Rank 4: dsid_3e7cf5be42d84f2880858c726b65998f | similarity=0.490731 | title=Quickstart Templates: KPI + telemetry requirements (events, tags, dashboards)
+  Rank 5: dsid_fe07ec3d8dde49efae487e6fadc66a77 | similarity=0.469161 | title=Staged degradation containment and fix lifecycle for model rollouts
+
+Comparison against V1, V2, and V3:
+  V1 answer completeness: No disable procedure or dashboards answer; retrieved evidence was insufficient.
+  V1 expected document ranks: dsid_e54ef48bae78474684a957cf613d47d5=absent
+  V1 top hit: dsid_cb51d298d4ea4b5c83ea6b5d44059ec9 (similarity 0.537605)
+  V1 citation validity: valid
+  V1 citations: dsid_cb51d298d4ea4b5c83ea6b5d44059ec9
+  V1 API status: N/A
+  V1 tokens (input/cached/output/reasoning): N/A/N/A/N/A/N/A
+  V1 response latency: 1.505 seconds
+  V1 recorded errors: None
+  V2 answer completeness: Text ends inside a citation ID.
+  V2 expected document ranks: dsid_e54ef48bae78474684a957cf613d47d5=1
+  V2 top hit: dsid_e54ef48bae78474684a957cf613d47d5 (similarity 0.720561)
+  V2 citation validity: invalid (Malformed or unclosed citation reference: '[')
+  V2 citations: dsid_e54ef48bae78474684a957cf613d47d5
+  V2 API status: N/A
+  V2 tokens (input/cached/output/reasoning): N/A/N/A/N/A/N/A
+  V2 response latency: 2.883 seconds
+  V2 recorded errors: None
+  V3 answer completeness: API completed; answers disable procedure and dashboards.
+  V3 expected document ranks: dsid_e54ef48bae78474684a957cf613d47d5=1
+  V3 top hit: dsid_e54ef48bae78474684a957cf613d47d5 (similarity 0.720561)
+  V3 citation validity: valid
+  V3 citations: dsid_e54ef48bae78474684a957cf613d47d5
+  V3 API status: completed
+  V3 tokens (input/cached/output/reasoning): 8906/8903/356/0
+  V3 response latency: 3.453 seconds
+  V3 recorded errors: None
+  V4 expected document ranks: dsid_e54ef48bae78474684a957cf613d47d5=1
+  V4 answer completeness: API completed and citations valid
+  V4 citation validity: valid
+  V4 API status: completed
+  V4 tokens (input/cached/output/reasoning): 8906/8903/372/0
+  V4 response latency: 3.926 seconds
+  V4 errors: None
+
+================================================================================
+QUESTION 3
+================================================================================
+Question: We are onboarding an enterprise customer who requires cross-account GPU bursting and third-party vendor integration. What technical, security, billing, and operational requirements must be addressed before production deployment?
+
+Generated answer:
+Before production, address these requirements across both the burst path and the vendor integration:
+
+### Technical readiness
+- **Enroll the borrower account through the cross-account IaC module and CI gate.** Preflight must show a clean Terraform plan, a lender-test-harness AssumeRole check, a successful borrower-to-lender egress probe under 200 ms, a configured cost cap and billing contact, and 100 synthetic requests validating end-to-end prefix caching and KV fill. [dsid_229dd48e9b1d466a81ebaffe3ec84469]
+- **Validate the vendor integration for its chosen pattern.** For VPC peering/firewall, verify routes, egress, three pings, TCP ports, and the data path; validate any applicable SSO, SCIM, KMS, and event-ingest flows with their prescribed test cases. [dsid_aeb0022d62bc43beb6549ba92e5655eb]
+- **If the vendor is an external model endpoint, register and test its adapter contract:** health, capabilities, inference correctness, telemetry delivery, performance at target token lengths, fidelity, and billing. Do not exceed 5% production traffic unless p90 latency is within 2× advertised capacity and fidelity delta is within configured tolerance. [dsid_8af01878fb504132b36f129953e25dd9]
+
+### Security and compliance
+- Confirm the executed contract permits the vendor’s access scope and data handling, and that data classification is approved. Complete required legal/procurement signoff and obtain applicable vendor attestation, signed DPA, recent penetration-test report or self-attestation, network diagram, access list with scope and TTL, and KMS evidence. [dsid_aeb0022d62bc43beb6549ba92e5655eb]
+- Use a minimally scoped borrower IAM role trusted only by the lender control-plane principal; verify its trust policy and permissions. [dsid_229dd48e9b1d466a81ebaffe3ec84469]
+- Define data flows, residency, and PII handling. For Private adapter deployments, do not route PII to an external-hosted adapter without explicit contract; prefer mTLS for Dedicated/Private, and rotate hosted OAuth2 tokens every 24 hours by default. Provide pullable or streamed audit logs. [dsid_8af01878fb504132b36f129953e25dd9]
+- For vendor onboarding, grant temporary credentials with TTL and complete the post-cutover access review and revocation. [dsid_aeb0022d62bc43beb6549ba92e5655eb]
+
+### Billing and cost controls
+- Set each borrower’s daily burst spend cap and emergency hard-stop configuration; CI must fail if the cost-cap variable is absent. The router enforces a hard stop at the cap plus a 10% buffer. [dsid_229dd48e9b1d466a81ebaffe3ec84469]
+- Establish cost attribution and reconciliation: collect per-request cost signals, test that adapter cost profiles feed billing correctly, and define who bears vendor-traffic costs contractually. For disputed burst charges, use cost-exporter and allocator-audit logs; apply any required adjustment within three business days. [dsid_229dd48e9b1d466a81ebaffe3ec84469] [dsid_8af01878fb504132b36f129953e25dd9] [dsid_aeb0022d62bc43beb6549ba92e5655eb]
+- Monitor cost deltas against forecast/baseline; the vendor cutover guidance flags projected overages above 15% of baseline for finance escalation, while the burst canary acceptance criterion is within ±15% of forecast. [dsid_aeb0022d62bc43beb6549ba92e5655eb] [dsid_229dd48e9b1d466a81ebaffe3ec84469]
+
+### SLOs, telemetry, and operations
+- Define and instrument the burst SLOs: 99.8% request success over a rolling 30 days; burst P95 latency no more than 1.5× local-pool P95; and lender fairness limits reserving at least 20% for local commits and capping burst saturation at 80%. [dsid_229dd48e9b1d466a81ebaffe3ec84469]
+- Agree on customer-facing vendor acceptance targets and monitoring. The onboarding playbook specifies telemetry completeness of 95% at canary and post-cutover API error rate below 1% p95 for the first 72 hours; canary monitoring includes latency, errors, and cost anomalies. [dsid_aeb0022d62bc43beb6549ba92e5655eb]
+- Attach dashboards and alerts for latency, errors, token/cost signals, cache behavior, and telemetry coverage; for adapters, require per-call accounting, trace propagation, and a metrics event within two seconds of inference completion. [dsid_aeb0022d62bc43beb6549ba92e5655eb] [dsid_8af01878fb504132b36f129953e25dd9]
+- Run staged canaries before promotion: burst enrollment uses a seven-day canary with no SLO violations and cost deltas within ±15% forecast; vendor cutover starts at 2–5% traffic and holds 60–120 minutes, with rollback on sustained error/latency breaches or unauthorized access. [dsid_229dd48e9b1d466a81ebaffe3ec84469] [dsid_aeb0022d62bc43beb6549ba92e5655eb]
+- Prepare operational ownership, escalation contacts, and rollback/runbook steps. Burst incidents route to gpu-fleet-oncall for allocator/pool issues and eng-platform for CI/config issues; the burst escalation targets are 15-minute acknowledgment, one-hour mitigation plan, and four-hour customer update. Vendor onboarding also specifies on-call, SRE, Security escalation, and rollback responsibilities. [dsid_229dd48e9b1d466a81ebaffe3ec84469] [dsid_aeb0022d62bc43beb6549ba92e5655eb]
+- Commit required test evidence with IaC changes, including plan summary, smoke logs, and canary dashboard link; adapter onboarding additionally requires performance, fidelity, telemetry-verification, and signed security artifacts. [dsid_229dd48e9b1d466a81ebaffe3ec84469] [dsid_8af01878fb504132b36f129953e25dd9]
+
+Answer completion: API completed; citations valid
+Citation validity: valid
+Source citations in generated answer: dsid_229dd48e9b1d466a81ebaffe3ec84469, dsid_8af01878fb504132b36f129953e25dd9, dsid_aeb0022d62bc43beb6549ba92e5655eb
+Overall response latency: 10.179 seconds
+Stage latencies (seconds): embedding=0.015, retrieval=0.006, generation=10.158
+Generation metadata:
+  Response ID: resp_0ef4aa7c6c8a4f0e016b0730f1dc0c87d29b601d534375b24e
+  API response status: completed
+  Incomplete reason: N/A
+  Input tokens: 10703
+  Cached input tokens: 10700
+  Output tokens: 1397
+  Reasoning tokens: 0
+  Total tokens: 12100
+  API response latency (seconds): 10.157
+Errors: None
+Retrieved documents (5):
+  Rank 1: dsid_229dd48e9b1d466a81ebaffe3ec84469 | similarity=0.589769 | title=Cross-account GPU burst SLO contract and CI lifecycle
+  Rank 2: dsid_aeb0022d62bc43beb6549ba92e5655eb | similarity=0.564142 | title=Third-Party & Vendor Coordination Playbook for Enterprise Onboarding
+  Rank 3: dsid_59179a57baf141d2a6aeff99369764be | similarity=0.546893 | title=StrataConnect + Redwood: Integration Discovery & Pilot Framing
+  Rank 4: dsid_8af01878fb504132b36f129953e25dd9 | similarity=0.487255 | title=Third-Party Model Adapters and Runtime Contracts: Design Patterns and Integration Playbook
+  Rank 5: dsid_9a072ce6e9294cf78751b25353b86b4f | similarity=0.485154 | title=Conversational Runtime Packaging and Rollout Playbook
+
+Question 3 category structure (manual content review also required):
+  technical: PRESENT: Technical readiness; 3 bullets; 3 citations
+  security: PRESENT: Security and compliance; 4 bullets; 4 citations
+  billing: PRESENT: Billing and cost controls; 3 bullets; 6 citations
+  operational: PRESENT: SLOs, telemetry, and operations; 6 bullets; 10 citations
+Manual content review: PASS. Technical covers borrower IaC/CI enrollment, vendor connectivity, and adapter tests. Security covers contract/DPA evidence, scoped IAM, data handling, and credential lifecycle. Billing covers spend caps, attribution/reconciliation, and cost monitoring. Operations covers SLOs, telemetry/alerts, canaries, rollback, ownership, and escalation. All four requested categories have substantive cited requirements.
+
+Comparison against V1, V2, and V3:
+  V1 answer completeness: Text ends mid-sentence and omits several requested requirements.
+  V1 expected document ranks: dsid_229dd48e9b1d466a81ebaffe3ec84469=absent, dsid_aeb0022d62bc43beb6549ba92e5655eb=absent
+  V1 top hit: dsid_59179a57baf141d2a6aeff99369764be (similarity 0.546893)
+  V1 citation validity: valid
+  V1 citations: dsid_59179a57baf141d2a6aeff99369764be, dsid_8af01878fb504132b36f129953e25dd9
+  V1 API status: N/A
+  V1 tokens (input/cached/output/reasoning): N/A/N/A/N/A/N/A
+  V1 response latency: 2.745 seconds
+  V1 recorded errors: None
+  V2 answer completeness: Stops after technical requirements; security, billing, and operations are missing.
+  V2 expected document ranks: dsid_229dd48e9b1d466a81ebaffe3ec84469=1, dsid_aeb0022d62bc43beb6549ba92e5655eb=2
+  V2 top hit: dsid_229dd48e9b1d466a81ebaffe3ec84469 (similarity 0.589769)
+  V2 citation validity: valid
+  V2 citations: dsid_229dd48e9b1d466a81ebaffe3ec84469
+  V2 API status: N/A
+  V2 tokens (input/cached/output/reasoning): N/A/N/A/N/A/N/A
+  V2 response latency: 3.088 seconds
+  V2 recorded errors: None
+  V3 answer completeness: API status incomplete at the 1024-token limit; answer ends inside a citation.
+  V3 expected document ranks: dsid_229dd48e9b1d466a81ebaffe3ec84469=1, dsid_aeb0022d62bc43beb6549ba92e5655eb=2
+  V3 top hit: dsid_229dd48e9b1d466a81ebaffe3ec84469 (similarity 0.589769)
+  V3 citation validity: invalid (Malformed or unclosed citation reference: '[')
+  V3 citations: dsid_229dd48e9b1d466a81ebaffe3ec84469, dsid_59179a57baf141d2a6aeff99369764be, dsid_8af01878fb504132b36f129953e25dd9, dsid_aeb0022d62bc43beb6549ba92e5655eb
+  V3 API status: incomplete
+  V3 tokens (input/cached/output/reasoning): 10703/10700/1024/0
+  V3 response latency: 8.324 seconds
+  V3 recorded errors: OpenAI response status=incomplete; incomplete_reason=max_output_tokens; Malformed or unclosed citation reference: '['
+  V4 expected document ranks: dsid_229dd48e9b1d466a81ebaffe3ec84469=1, dsid_aeb0022d62bc43beb6549ba92e5655eb=2
+  V4 answer completeness: API completed and citations valid
+  V4 citation validity: valid
+  V4 API status: completed
+  V4 tokens (input/cached/output/reasoning): 10703/10700/1397/0
+  V4 response latency: 10.179 seconds
+  V4 errors: None
+
+Interpretation: The only changed request parameter versus V3 is max_output_tokens=2048. A completed API status and valid citations do not by themselves prove factual completeness; Question 3's four categories require content review.
+Regression tests: python -m pytest -q -> 14 passed, 1 skipped.
